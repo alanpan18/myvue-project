@@ -99,3 +99,8 @@ exports.createNotifierCallback = () => {
     })
   }
 }
+
+//这里提供工具函数，包括生成处理各种样式语言的loader，获取资源文件存放路径的工具函数。
+//配置静态资源路径；
+//生成cssLoaders用于加载.vue文件中的样式；
+//生成styleLoaders用于加载不在.vue文件中的单独存在的样式文件。

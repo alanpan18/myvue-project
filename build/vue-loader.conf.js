@@ -7,12 +7,14 @@ const sourceMapEnabled = isProduction
   : config.dev.cssSourceMap
 
 module.exports = {
+  //css加载器
   loaders: utils.cssLoaders({
     sourceMap: sourceMapEnabled,
     extract: isProduction
   }),
   cssSourceMap: sourceMapEnabled,
   cacheBusting: config.dev.cacheBusting,
+  // 让vue-loader知道需要对video的src属性的内容转换为模块。
   transformToRequire: {
     video: ['src', 'poster'],
     source: 'src',

@@ -7,12 +7,13 @@ const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+// 用于从webpack生成的bundle中提取文本到特定文件中的插件，可以抽取出css，js文件将其与webpack输出的bundle分离。
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const env = require('../config/prod.env')
-
+// 合并基础的webpack配置。
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
@@ -22,16 +23,22 @@ const webpackConfig = merge(baseWebpackConfig, {
     })
   },
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
+  // 配置webpack的输出。
   output: {
+    // 编译输出目录。
     path: config.build.assetsRoot,
+    // 编译输出文件名格式。
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
+    // 没有指定输出名的文件输出的文件名格式。
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
+  // 配置webpack插件。
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env
     }),
+    // 压缩代码
     new UglifyJsPlugin({
       uglifyOptions: {
         compress: {
@@ -42,6 +49,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       parallel: true
     }),
     // extract css into its own file
+    // 抽离css文件。
     new ExtractTextPlugin({
       filename: utils.assetsPath('css/[name].[contenthash].css'),
       // Setting the following option to `false` will not extract CSS from codesplit chunks.
@@ -118,7 +126,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     ])
   ]
 })
-
+// gzip模式下需要引入compression插件进行压缩。
 if (config.build.productionGzip) {
   const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
@@ -143,3 +151,13 @@ if (config.build.bundleAnalyzerReport) {
 }
 
 module.exports = webpackConfig
+
+
+//这里是构建的时候用到的webpack配置来自webpack.prod.conf.js，该配置同样是在webpack.base.conf基础上的进一步完善。主要完成下面操作：
+//合并基础的webpack配置；
+//配置样式文件的处理规则，styleLoaders；
+//配置webpack的输出；
+//配置webpack插件；
+//gzip模式下的webpack插件配置；
+//webpack-bundle分析。
+
